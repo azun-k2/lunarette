@@ -52,6 +52,7 @@
 <body>
 <main>
 <div class="hero">
+  <div class="hero-pill">🌙 四大曆法傳統 · 天干地支與生肖 · 二十四節氣 · 桌面與鎖屏小組件</div>
   <img class="icon" src="../icon-512.png" alt="" width="112" height="112">
   <h1>Lunarette</h1>
   <p class="tagline">農曆，按一下就看到。</p>
@@ -108,6 +109,159 @@
   </details><!-- /family:nav -->
   </nav>
 </div>
+<div class="demo-wrapper" id="demo">
+  <div class="lunarette-stage" role="group" aria-label="互動演示：精準四國傳統農曆與節氣節日">
+    <div class="lunarette-display">
+      <div class="lunarette-header-row">
+        <span id="lrMoon" class="lunarette-moon-badge">🌕</span>
+        <div id="lrTitle" class="lunarette-lunar-title">Ngày 15 tháng 8 năm Bính Ngọ</div>
+      </div>
+      <div id="lrSolar" class="lunarette-solar-sub">2026-09-25 · 秋分</div>
+      <div id="lrPill" class="lunarette-fest-pill">🥮 中秋佳節 · 今夜</div>
+    </div>
+    <div class="lunarette-grid">
+      <div class="lunarette-card-item">
+        <div id="lrStem" class="lunarette-item-val">Bính Thìn</div>
+        <div class="lunarette-item-lbl">干支紀法</div>
+      </div>
+      <div class="lunarette-card-item">
+        <div id="lrTerm" class="lunarette-item-val">秋分</div>
+        <div class="lunarette-item-lbl">節氣</div>
+      </div>
+      <div class="lunarette-card-item">
+        <div id="lrZodiac" class="lunarette-item-val">丙午年 (馬)</div>
+        <div class="lunarette-item-lbl">生肖年份</div>
+      </div>
+      <div class="lunarette-card-item">
+        <div id="lrFest" class="lunarette-item-val">中秋佳節 · 今夜</div>
+        <div class="lunarette-item-lbl">臨近節日</div>
+      </div>
+    </div>
+    <div class="lunarette-chips">
+      <button class="app-chip active" data-trad="vn">🇻🇳 越南曆</button>
+      <button class="app-chip" data-trad="cn">🇨🇳 農曆 / 華曆</button>
+      <button class="app-chip" data-trad="kr">🇰🇷 韓國曆</button>
+      <button class="app-chip" data-trad="jp">🇯🇵 日本舊曆</button>
+    </div>
+    <div class="lunarette-chips" style="margin-top: -6px;">
+      <button class="app-chip active" data-preset="midautumn">🌕 中秋節 (八月十五)</button>
+      <button class="app-chip" data-preset="tet">🧧 春節 (正月初一)</button>
+      <button class="app-chip" data-preset="qingming">🌾 清明節氣</button>
+      <button class="app-chip" data-preset="newmoon">🌑 朔日 (初一)</button>
+    </div>
+    <span class="demo-hint">💡 點擊任意曆法傳統或節日標籤，即時查看本地經度干支與曆法排布</span>
+  </div>
+  <p class="demo-note">視覺模擬。在 Mac、iOS 和 Android 上，Lunarette 100% 離線計算嚴謹天文農曆。</p>
+</div>
+<script>
+(function() {
+  var lrMoon = document.getElementById('lrMoon'), lrTitle = document.getElementById('lrTitle');
+  var lrSolar = document.getElementById('lrSolar'), lrPill = document.getElementById('lrPill');
+  var lrStem = document.getElementById('lrStem'), lrTerm = document.getElementById('lrTerm');
+  var lrZodiac = document.getElementById('lrZodiac'), lrFest = document.getElementById('lrFest');
+  var tradChips = document.querySelectorAll('.lunarette-chips [data-trad]');
+  var presetChips = document.querySelectorAll('.lunarette-chips [data-preset]');
+
+  var currentTrad = 'vn';
+  var currentPreset = 'midautumn';
+
+  var presets = {
+    'midautumn': {
+      moon: '🌕',
+      solar: '2026-09-25',
+      term: "秋分",
+      fest: "中秋佳節 · 今夜",
+      icon: '🥮',
+      titles: {
+        'vn': 'Ngày 15 tháng 8 năm Bính Ngọ',
+        'cn': '丙午年八月十五',
+        'kr': '병오년 8월 15일 (추석)',
+        'jp': '8月15日 六曜: 大安'
+      },
+      stem: 'Bính Thìn',
+      zodiac: "丙午年 (馬)"
+    },
+    'tet': {
+      moon: '🧧',
+      solar: '2027-02-06',
+      term: "立春",
+      fest: "新春佳節 / 春節",
+      icon: '🎊',
+      titles: {
+        'vn': 'Mùng 1 tháng Giêng năm Đinh Mùi',
+        'cn': '丁未年正月初一',
+        'kr': '정미년 1월 1일 (설날)',
+        'jp': '1月1日 (旧正月) 大安'
+      },
+      stem: 'Canh Dần',
+      zodiac: "丁未年 (羊)"
+    },
+    'qingming': {
+      moon: '🌾',
+      solar: '2026-04-05',
+      term: "清明",
+      fest: "清明掃墓節",
+      icon: '🌿',
+      titles: {
+        'vn': 'Ngày 18 tháng 2 năm Bính Ngọ',
+        'cn': '丙午年二月十八',
+        'kr': '병오년 2월 18일 (청명)',
+        'jp': '2月18日 六曜: 友引'
+      },
+      stem: 'Nhâm Tuất',
+      zodiac: "丙午年 (馬)"
+    },
+    'newmoon': {
+      moon: '🌑',
+      solar: '2026-09-11',
+      term: "白露",
+      fest: "朔月 / 初一日",
+      icon: '✨',
+      titles: {
+        'vn': 'Mùng 1 tháng 8 năm Bính Ngọ',
+        'cn': '丙午年八月初一',
+        'kr': '병오년 8월 1일 (초하루)',
+        'jp': '8月1日 六曜: 先勝'
+      },
+      stem: 'Nhâm Tý',
+      zodiac: "丙午年 (馬)"
+    }
+  };
+
+  function render() {
+    var p = presets[currentPreset];
+    if (!p) return;
+    lrMoon.textContent = p.moon;
+    lrTitle.textContent = p.titles[currentTrad] || p.titles['vn'];
+    lrSolar.textContent = p.solar + ' · ' + p.term;
+    lrPill.textContent = p.icon + ' ' + p.fest;
+    lrStem.textContent = p.stem;
+    lrTerm.textContent = p.term;
+    lrZodiac.textContent = p.zodiac;
+    lrFest.textContent = p.fest;
+  }
+
+  tradChips.forEach(function(c) {
+    c.addEventListener('click', function() {
+      tradChips.forEach(function(x) { x.classList.remove('active'); });
+      c.classList.add('active');
+      currentTrad = c.getAttribute('data-trad');
+      render();
+    });
+  });
+
+  presetChips.forEach(function(c) {
+    c.addEventListener('click', function() {
+      presetChips.forEach(function(x) { x.classList.remove('active'); });
+      c.classList.add('active');
+      currentPreset = c.getAttribute('data-preset');
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
 
 <!-- family:shot --><figure class="shot"><img src="../img/hero.jpg" alt="" width="1600" height="860"></figure><!-- /family:shot -->
 <section class="card">
@@ -125,6 +279,49 @@
   <p class="note">需要 macOS 14 Sonoma、iOS 17 或 iPadOS 17、或 Android 8.0 以上版本。涵蓋 1901 年至 2099 年。</p>
 </section>
 
+
+<section class="card comparison-card" id="comparison">
+  <h2>臃腫滿屏廣告的黃曆應用 vs Lunarette</h2>
+  <p class="section-lead">嚴謹的天文曆法與節氣，無廣告、無迷信、絕不追蹤。</p>
+  <div class="table-scroll">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>功能維度</th>
+          <th>常見黃曆 / 萬年曆應用</th>
+          <th class="highlight-col">Lunarette</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>廣告與算命迷信</strong></td>
+          <td>充斥全屏彈窗廣告、八字命理付費算命與推銷</td>
+          <td class="highlight-col"><strong>100% 無廣告，清爽典雅，回歸純粹東方傳統曆法</strong></td>
+        </tr>
+        <tr>
+          <td><strong>四大傳統經度</strong></td>
+          <td>粗暴通用單一演算法，導致跨時區閏月和日期錯位（如1985春節、2027韓曆）</td>
+          <td class="highlight-col"><strong>分別依照中國、越南、韓國、日本各自中央經線高精度計算</strong></td>
+        </tr>
+        <tr>
+          <td><strong>節氣與傳統節日</strong></td>
+          <td>節氣粗糙無真實黃經計算，缺乏節慶倒數計時</td>
+          <td class="highlight-col"><strong>精確二十四節氣換算，各大傳統節日及貼心倒數</strong></td>
+        </tr>
+        <tr>
+          <td><strong>農曆日程提醒</strong></td>
+          <td>僅支援公曆鬧鐘，每年需手動換算忌日和農曆生日</td>
+          <td class="highlight-col"><strong>原生農曆循環提醒：農曆生日、祭祖忌日、初一十五自動提醒</strong></td>
+        </tr>
+        <tr>
+          <td><strong>原生體驗與隱私</strong></td>
+          <td>臃腫套殼網頁消耗電量，頻繁上傳設備與位置資訊</td>
+          <td class="highlight-col"><strong>Mac 選單列一鍵呼出，桌面與鎖屏小組件，純本機離線運行</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 <section class="card">
   <h2>一段話說明隱私權</h2>
   <p>Lunarette 沒有網路取用權、沒有帳號，也不追蹤。曆法依據月亮和太陽的位置在你的裝置上計算，你的提醒也只留在裝置上。完整的<a href="privacy.html">隱私權政策</a>對此有更詳細的說明。</p>

@@ -52,6 +52,7 @@
 <body>
 <main>
 <div class="hero">
+  <div class="hero-pill">🌙 4 tradiciones · Troncos, ramas y zodiaco · 24 términos solares · Widgets</div>
   <img class="icon" src="../icon-512.png" alt="" width="112" height="112">
   <h1>Lunarette</h1>
   <p class="tagline">El calendario lunar, a un clic.</p>
@@ -108,6 +109,159 @@
   </details><!-- /family:nav -->
   </nav>
 </div>
+<div class="demo-wrapper" id="demo">
+  <div class="lunarette-stage" role="group" aria-label="Interactive demo: authentic four-tradition lunar calendar and festival viewer">
+    <div class="lunarette-display">
+      <div class="lunarette-header-row">
+        <span id="lrMoon" class="lunarette-moon-badge">🌕</span>
+        <div id="lrTitle" class="lunarette-lunar-title">Ngày 15 tháng 8 năm Bính Ngọ</div>
+      </div>
+      <div id="lrSolar" class="lunarette-solar-sub">2026-09-25 · Autumnal Equinox</div>
+      <div id="lrPill" class="lunarette-fest-pill">🥮 Mid-Autumn · Tonight!</div>
+    </div>
+    <div class="lunarette-grid">
+      <div class="lunarette-card-item">
+        <div id="lrStem" class="lunarette-item-val">Bính Thìn</div>
+        <div class="lunarette-item-lbl">Stem & Branch</div>
+      </div>
+      <div class="lunarette-card-item">
+        <div id="lrTerm" class="lunarette-item-val">Autumnal Equinox</div>
+        <div class="lunarette-item-lbl">Solar Term</div>
+      </div>
+      <div class="lunarette-card-item">
+        <div id="lrZodiac" class="lunarette-item-val">Horse (Bính Ngọ)</div>
+        <div class="lunarette-item-lbl">Zodiac Animal</div>
+      </div>
+      <div class="lunarette-card-item">
+        <div id="lrFest" class="lunarette-item-val">Mid-Autumn · Tonight!</div>
+        <div class="lunarette-item-lbl">Next Festival</div>
+      </div>
+    </div>
+    <div class="lunarette-chips">
+      <button class="app-chip active" data-trad="vn">🇻🇳 Vietnamese</button>
+      <button class="app-chip" data-trad="cn">🇨🇳 Chinese</button>
+      <button class="app-chip" data-trad="kr">🇰🇷 Korean</button>
+      <button class="app-chip" data-trad="jp">🇯🇵 Japanese</button>
+    </div>
+    <div class="lunarette-chips" style="margin-top: -6px;">
+      <button class="app-chip active" data-preset="midautumn">🌕 Mid-Autumn (8/15)</button>
+      <button class="app-chip" data-preset="tet">🧧 Lunar New Year (1/1)</button>
+      <button class="app-chip" data-preset="qingming">🌾 Qingming Term</button>
+      <button class="app-chip" data-preset="newmoon">🌑 1st of Lunar Month</button>
+    </div>
+    <span class="demo-hint">💡 Click any tradition or festival chip to view authentic meridian calculations and stem-branch alignments</span>
+  </div>
+  <p class="demo-note">Visual simulation. On Mac, iOS and Android, Lunarette computes accurate astronomical lunar calendars 100% offline.</p>
+</div>
+<script>
+(function() {
+  var lrMoon = document.getElementById('lrMoon'), lrTitle = document.getElementById('lrTitle');
+  var lrSolar = document.getElementById('lrSolar'), lrPill = document.getElementById('lrPill');
+  var lrStem = document.getElementById('lrStem'), lrTerm = document.getElementById('lrTerm');
+  var lrZodiac = document.getElementById('lrZodiac'), lrFest = document.getElementById('lrFest');
+  var tradChips = document.querySelectorAll('.lunarette-chips [data-trad]');
+  var presetChips = document.querySelectorAll('.lunarette-chips [data-preset]');
+
+  var currentTrad = 'vn';
+  var currentPreset = 'midautumn';
+
+  var presets = {
+    'midautumn': {
+      moon: '🌕',
+      solar: '2026-09-25',
+      term: "Autumnal Equinox",
+      fest: "Mid-Autumn · Tonight!",
+      icon: '🥮',
+      titles: {
+        'vn': 'Ngày 15 tháng 8 năm Bính Ngọ',
+        'cn': '丙午年八月十五',
+        'kr': '병오년 8월 15일 (추석)',
+        'jp': '8月15日 六曜: 大安'
+      },
+      stem: 'Bính Thìn',
+      zodiac: "Horse (Bính Ngọ)"
+    },
+    'tet': {
+      moon: '🧧',
+      solar: '2027-02-06',
+      term: "Beginning of Spring",
+      fest: "Tết / Spring Festival",
+      icon: '🎊',
+      titles: {
+        'vn': 'Mùng 1 tháng Giêng năm Đinh Mùi',
+        'cn': '丁未年正月初一',
+        'kr': '정미년 1월 1일 (설날)',
+        'jp': '1月1日 (旧正月) 大安'
+      },
+      stem: 'Canh Dần',
+      zodiac: "Goat (Đinh Mùi)"
+    },
+    'qingming': {
+      moon: '🌾',
+      solar: '2026-04-05',
+      term: "Clear & Bright",
+      fest: "Qingming (Tomb Sweeping)",
+      icon: '🌿',
+      titles: {
+        'vn': 'Ngày 18 tháng 2 năm Bính Ngọ',
+        'cn': '丙午年二月十八',
+        'kr': '병오년 2월 18일 (청명)',
+        'jp': '2月18日 六曜: 友引'
+      },
+      stem: 'Nhâm Tuất',
+      zodiac: "Horse (Bính Ngọ)"
+    },
+    'newmoon': {
+      moon: '🌑',
+      solar: '2026-09-11',
+      term: "White Dew",
+      fest: "New Moon / 1st Day",
+      icon: '✨',
+      titles: {
+        'vn': 'Mùng 1 tháng 8 năm Bính Ngọ',
+        'cn': '丙午年八月初一',
+        'kr': '병오년 8월 1일 (초하루)',
+        'jp': '8月1日 六曜: 先勝'
+      },
+      stem: 'Nhâm Tý',
+      zodiac: "Horse (Bính Ngọ)"
+    }
+  };
+
+  function render() {
+    var p = presets[currentPreset];
+    if (!p) return;
+    lrMoon.textContent = p.moon;
+    lrTitle.textContent = p.titles[currentTrad] || p.titles['vn'];
+    lrSolar.textContent = p.solar + ' · ' + p.term;
+    lrPill.textContent = p.icon + ' ' + p.fest;
+    lrStem.textContent = p.stem;
+    lrTerm.textContent = p.term;
+    lrZodiac.textContent = p.zodiac;
+    lrFest.textContent = p.fest;
+  }
+
+  tradChips.forEach(function(c) {
+    c.addEventListener('click', function() {
+      tradChips.forEach(function(x) { x.classList.remove('active'); });
+      c.classList.add('active');
+      currentTrad = c.getAttribute('data-trad');
+      render();
+    });
+  });
+
+  presetChips.forEach(function(c) {
+    c.addEventListener('click', function() {
+      presetChips.forEach(function(x) { x.classList.remove('active'); });
+      c.classList.add('active');
+      currentPreset = c.getAttribute('data-preset');
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
 
 <!-- family:shot --><figure class="shot"><img src="../img/hero.jpg" alt="" width="1600" height="860"></figure><!-- /family:shot -->
 <section class="card">
@@ -125,6 +279,49 @@
   <p class="note">Requiere macOS 14 Sonoma, iOS 17 o iPadOS 17, o Android 8.0, o posterior. Abarca de 1901 a 2099.</p>
 </section>
 
+
+<section class="card comparison-card" id="comparison">
+  <h2>Apps sobrecargadas de anuncios vs Lunarette</h2>
+  <p class="section-lead">Auténtico calendario lunar calculado con precisión astronómica, sin anuncios ni rastreo.</p>
+  <div class="table-scroll">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Aspecto</th>
+          <th>Apps de calendario lunar típicas</th>
+          <th class="highlight-col">Lunarette</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Publicidad y superstición</strong></td>
+          <td>Anuncios a pantalla completa y adivinación de pago</td>
+          <td class="highlight-col"><strong>100% sin publicidad, respetuoso con la cultura, limpio y sereno</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Cuatro tradiciones</strong></td>
+          <td>Un único algoritmo genérico que desfasa meses bisiestos</td>
+          <td class="highlight-col"><strong>Meridianos exactos para Vietnam, China, Corea y Japón</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Términos solares y fiestas</strong></td>
+          <td>Tablas imprecisas sin cuenta atrás para grandes festivales</td>
+          <td class="highlight-col"><strong>Los 24 términos solares, festividades y cuenta atrás en vivo</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Recordatorios lunares</strong></td>
+          <td>Solo alarmas solares que requieren conversión manual anual</td>
+          <td class="highlight-col"><strong>Recordatorios lunares periódicos para aniversarios y días 1 y 15</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Integración nativa</strong></td>
+          <td>Webviews pesadas que agotan la batería enviando datos</td>
+          <td class="highlight-col"><strong>Barra de menús de Mac, widgets en pantalla de bloqueo, 100% offline</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 <section class="card">
   <h2>La privacidad en un párrafo</h2>
   <p>Lunarette no tiene acceso a la red, ni cuenta, ni seguimiento. El calendario se calcula en tu dispositivo a partir de la posición de la Luna y el Sol, y tus recordatorios se quedan en tu dispositivo. La <a href="privacy.html">política de privacidad</a> completa dice lo mismo con más detalle.</p>

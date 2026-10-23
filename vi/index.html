@@ -52,6 +52,7 @@
 <body>
 <main>
 <div class="hero">
+  <div class="hero-pill">🌙 4 truyền thống · Can Chi & Con giáp · 24 Tiết khí · Widget Màn hình khoá & Desktop</div>
   <img class="icon" src="../icon-512.png" alt="" width="112" height="112">
   <h1>Lunarette</h1>
   <p class="tagline">Âm lịch, chỉ cách một cú bấm.</p>
@@ -108,6 +109,159 @@
   </details><!-- /family:nav -->
   </nav>
 </div>
+<div class="demo-wrapper" id="demo">
+  <div class="lunarette-stage" role="group" aria-label="Bản demo tương tác: lịch âm 4 truyền thống chuẩn xác và xem lễ hội">
+    <div class="lunarette-display">
+      <div class="lunarette-header-row">
+        <span id="lrMoon" class="lunarette-moon-badge">🌕</span>
+        <div id="lrTitle" class="lunarette-lunar-title">Ngày 15 tháng 8 năm Bính Ngọ</div>
+      </div>
+      <div id="lrSolar" class="lunarette-solar-sub">2026-09-25 · Thu Phân</div>
+      <div id="lrPill" class="lunarette-fest-pill">🥮 Tết Trung Thu · Tối nay!</div>
+    </div>
+    <div class="lunarette-grid">
+      <div class="lunarette-card-item">
+        <div id="lrStem" class="lunarette-item-val">Bính Thìn</div>
+        <div class="lunarette-item-lbl">Can Chi</div>
+      </div>
+      <div class="lunarette-card-item">
+        <div id="lrTerm" class="lunarette-item-val">Thu Phân</div>
+        <div class="lunarette-item-lbl">Tiết Khí</div>
+      </div>
+      <div class="lunarette-card-item">
+        <div id="lrZodiac" class="lunarette-item-val">Bính Ngọ (Ngựa)</div>
+        <div class="lunarette-item-lbl">Con Giáp</div>
+      </div>
+      <div class="lunarette-card-item">
+        <div id="lrFest" class="lunarette-item-val">Tết Trung Thu · Tối nay!</div>
+        <div class="lunarette-item-lbl">Dịp Lễ Hội</div>
+      </div>
+    </div>
+    <div class="lunarette-chips">
+      <button class="app-chip active" data-trad="vn">🇻🇳 Việt Nam</button>
+      <button class="app-chip" data-trad="cn">🇨🇳 Trung Hoa</button>
+      <button class="app-chip" data-trad="kr">🇰🇷 Hàn Quốc</button>
+      <button class="app-chip" data-trad="jp">🇯🇵 Nhật Bản</button>
+    </div>
+    <div class="lunarette-chips" style="margin-top: -6px;">
+      <button class="app-chip active" data-preset="midautumn">🌕 Rằm Trung Thu (15/8)</button>
+      <button class="app-chip" data-preset="tet">🧧 Mùng 1 Tết (1/1)</button>
+      <button class="app-chip" data-preset="qingming">🌾 Tiết Thanh Minh</button>
+      <button class="app-chip" data-preset="newmoon">🌑 Mùng 1 Sóc Vọng</button>
+    </div>
+    <span class="demo-hint">💡 Nhấn chọn truyền thống hoặc lễ hội để xem cách hiển thị ngày âm và can chi tương ứng</span>
+  </div>
+  <p class="demo-note">Mô phỏng trực quan. Trên Mac, iOS và Android, Lunarette tính toán thiên văn âm dương 100% ngoại tuyến.</p>
+</div>
+<script>
+(function() {
+  var lrMoon = document.getElementById('lrMoon'), lrTitle = document.getElementById('lrTitle');
+  var lrSolar = document.getElementById('lrSolar'), lrPill = document.getElementById('lrPill');
+  var lrStem = document.getElementById('lrStem'), lrTerm = document.getElementById('lrTerm');
+  var lrZodiac = document.getElementById('lrZodiac'), lrFest = document.getElementById('lrFest');
+  var tradChips = document.querySelectorAll('.lunarette-chips [data-trad]');
+  var presetChips = document.querySelectorAll('.lunarette-chips [data-preset]');
+
+  var currentTrad = 'vn';
+  var currentPreset = 'midautumn';
+
+  var presets = {
+    'midautumn': {
+      moon: '🌕',
+      solar: '2026-09-25',
+      term: "Thu Phân",
+      fest: "Tết Trung Thu · Tối nay!",
+      icon: '🥮',
+      titles: {
+        'vn': 'Ngày 15 tháng 8 năm Bính Ngọ',
+        'cn': '丙午年八月十五',
+        'kr': '병오년 8월 15일 (추석)',
+        'jp': '8月15日 六曜: 大安'
+      },
+      stem: 'Bính Thìn',
+      zodiac: "Bính Ngọ (Ngựa)"
+    },
+    'tet': {
+      moon: '🧧',
+      solar: '2027-02-06',
+      term: "Lập Xuân",
+      fest: "Tết Nguyên Đán",
+      icon: '🎊',
+      titles: {
+        'vn': 'Mùng 1 tháng Giêng năm Đinh Mùi',
+        'cn': '丁未年正月初一',
+        'kr': '정미년 1월 1일 (설날)',
+        'jp': '1月1日 (旧正月) 大安'
+      },
+      stem: 'Canh Dần',
+      zodiac: "Đinh Mùi (Dê)"
+    },
+    'qingming': {
+      moon: '🌾',
+      solar: '2026-04-05',
+      term: "Thanh Minh",
+      fest: "Tết Thanh Minh",
+      icon: '🌿',
+      titles: {
+        'vn': 'Ngày 18 tháng 2 năm Bính Ngọ',
+        'cn': '丙午年二月十八',
+        'kr': '병오년 2월 18일 (청명)',
+        'jp': '2月18日 六曜: 友引'
+      },
+      stem: 'Nhâm Tuất',
+      zodiac: "Bính Ngọ (Ngựa)"
+    },
+    'newmoon': {
+      moon: '🌑',
+      solar: '2026-09-11',
+      term: "Bạch Lộ",
+      fest: "Mùng 1 đầu tháng",
+      icon: '✨',
+      titles: {
+        'vn': 'Mùng 1 tháng 8 năm Bính Ngọ',
+        'cn': '丙午年八月初一',
+        'kr': '병오년 8월 1일 (초하루)',
+        'jp': '8月1日 六曜: 先勝'
+      },
+      stem: 'Nhâm Tý',
+      zodiac: "Bính Ngọ (Ngựa)"
+    }
+  };
+
+  function render() {
+    var p = presets[currentPreset];
+    if (!p) return;
+    lrMoon.textContent = p.moon;
+    lrTitle.textContent = p.titles[currentTrad] || p.titles['vn'];
+    lrSolar.textContent = p.solar + ' · ' + p.term;
+    lrPill.textContent = p.icon + ' ' + p.fest;
+    lrStem.textContent = p.stem;
+    lrTerm.textContent = p.term;
+    lrZodiac.textContent = p.zodiac;
+    lrFest.textContent = p.fest;
+  }
+
+  tradChips.forEach(function(c) {
+    c.addEventListener('click', function() {
+      tradChips.forEach(function(x) { x.classList.remove('active'); });
+      c.classList.add('active');
+      currentTrad = c.getAttribute('data-trad');
+      render();
+    });
+  });
+
+  presetChips.forEach(function(c) {
+    c.addEventListener('click', function() {
+      presetChips.forEach(function(x) { x.classList.remove('active'); });
+      c.classList.add('active');
+      currentPreset = c.getAttribute('data-preset');
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
 
 <!-- family:shot --><figure class="shot"><img src="../img/hero.jpg" alt="" width="1600" height="860"></figure><!-- /family:shot -->
 <section class="card">
@@ -125,6 +279,49 @@
   <p class="note">Yêu cầu macOS 14 Sonoma, iOS 17 hoặc iPadOS 17, hoặc Android 8.0 trở lên. Bao quát từ năm 1901 đến năm 2099.</p>
 </section>
 
+
+<section class="card comparison-card" id="comparison">
+  <h2>Lịch vạn niên tràn ngập quảng cáo so với Lunarette</h2>
+  <p class="section-lead">Lịch âm truyền thống chuẩn xác, trang nhã, không mê tín bói toán, không quảng cáo.</p>
+  <div class="table-scroll">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Đặc tính</th>
+          <th>Ứng dụng lịch âm thông thường</th>
+          <th class="highlight-col">Lunarette</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Quảng cáo & Bói toán</strong></td>
+          <td>Quảng cáo pop-up dày đặc, bói toán mê tín và xin quẻ thu phí</td>
+          <td class="highlight-col"><strong>Hoàn toàn không quảng cáo, thanh lịch, thuần túy lịch văn hoá</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Độ chuẩn xác 4 truyền thống</strong></td>
+          <td>Dùng chung một múi giờ gây lệch ngày Tết (Tết 1985, Seollal 2027)</td>
+          <td class="highlight-col"><strong>Tính theo đúng kinh tuyến riêng của Việt Nam, Trung Hoa, Hàn Quốc, Nhật Bản</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Tiết khí & Lễ hội</strong></td>
+          <td>Thiếu độ chính xác góc mặt trời, không có đếm ngược lễ hội</td>
+          <td class="highlight-col"><strong>Đầy đủ 24 tiết khí, các ngày lễ truyền thống lớn và đồng hồ đếm ngược</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Nhắc nhở ngày âm</strong></td>
+          <td>Chỉ có báo thức dương lịch, phải tự tra cứu ngày âm hàng năm</td>
+          <td class="highlight-col"><strong>Tự động nhắc ngày giỗ, sinh nhật âm, mùng một và ngày rằm hàng tháng</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Trải nghiệm Native</strong></td>
+          <td>Ứng dụng webview nặng nề, tốn pin và liên tục gửi dữ liệu về máy chủ</td>
+          <td class="highlight-col"><strong>Menu bar Mac, Widget màn hình khoá iPhone, máy tính bảng và chạy 100% offline</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 <section class="card">
   <h2>Quyền riêng tư trong một đoạn</h2>
   <p>Lunarette không có truy cập mạng, không tài khoản và không theo dõi. Lịch được tính ngay trên thiết bị của bạn từ vị trí của Mặt Trăng và Mặt Trời, và lời nhắc của bạn cũng ở lại trên thiết bị. <a href="privacy.html">Chính sách quyền riêng tư</a> đầy đủ nói đúng điều đó một cách chi tiết hơn.</p>

@@ -52,6 +52,7 @@
 <body>
 <main>
 <div class="hero">
+  <div class="hero-pill">🌙 4대 음력 전통 · 간지와 십이지 · 24절기 · 데스크탑 및 잠금화면 위젯</div>
   <img class="icon" src="../icon-512.png" alt="" width="112" height="112">
   <h1>Lunarette</h1>
   <p class="tagline">클릭 한 번으로 보는 음력.</p>
@@ -108,6 +109,159 @@
   </details><!-- /family:nav -->
   </nav>
 </div>
+<div class="demo-wrapper" id="demo">
+  <div class="lunarette-stage" role="group" aria-label="인터랙티브 데모: 정확한 4개국 전통 음력 및 절기 뷰어">
+    <div class="lunarette-display">
+      <div class="lunarette-header-row">
+        <span id="lrMoon" class="lunarette-moon-badge">🌕</span>
+        <div id="lrTitle" class="lunarette-lunar-title">Ngày 15 tháng 8 năm Bính Ngọ</div>
+      </div>
+      <div id="lrSolar" class="lunarette-solar-sub">2026-09-25 · 추분</div>
+      <div id="lrPill" class="lunarette-fest-pill">🥮 한가위 추석 · 오늘 밤</div>
+    </div>
+    <div class="lunarette-grid">
+      <div class="lunarette-card-item">
+        <div id="lrStem" class="lunarette-item-val">Bính Thìn</div>
+        <div class="lunarette-item-lbl">간지 (육십갑자)</div>
+      </div>
+      <div class="lunarette-card-item">
+        <div id="lrTerm" class="lunarette-item-val">추분</div>
+        <div class="lunarette-item-lbl">24절기</div>
+      </div>
+      <div class="lunarette-card-item">
+        <div id="lrZodiac" class="lunarette-item-val">병오년 (말띠)</div>
+        <div class="lunarette-item-lbl">올해의 띠</div>
+      </div>
+      <div class="lunarette-card-item">
+        <div id="lrFest" class="lunarette-item-val">한가위 추석 · 오늘 밤</div>
+        <div class="lunarette-item-lbl">다가오는 명절</div>
+      </div>
+    </div>
+    <div class="lunarette-chips">
+      <button class="app-chip active" data-trad="vn">🇻🇳 베트남 음력</button>
+      <button class="app-chip" data-trad="cn">🇨🇳 중국 음력</button>
+      <button class="app-chip" data-trad="kr">🇰🇷 한국 음력</button>
+      <button class="app-chip" data-trad="jp">🇯🇵 일본 구력</button>
+    </div>
+    <div class="lunarette-chips" style="margin-top: -6px;">
+      <button class="app-chip active" data-preset="midautumn">🌕 추석 (8월 15일)</button>
+      <button class="app-chip" data-preset="tet">🧧 설날 (1월 1일)</button>
+      <button class="app-chip" data-preset="qingming">🌾 청명 절기</button>
+      <button class="app-chip" data-preset="newmoon">🌑 초하루 (삭일)</button>
+    </div>
+    <span class="demo-hint">💡 전통이나 명절 칩을 클릭하여 각국의 정확한 음력 계산과 간지 표기를 확인해보세요</span>
+  </div>
+  <p class="demo-note">시각적 시뮬레이션입니다. Mac, iOS, Android용 Lunarette는 100% 오프라인 천문 계산을 수행합니다.</p>
+</div>
+<script>
+(function() {
+  var lrMoon = document.getElementById('lrMoon'), lrTitle = document.getElementById('lrTitle');
+  var lrSolar = document.getElementById('lrSolar'), lrPill = document.getElementById('lrPill');
+  var lrStem = document.getElementById('lrStem'), lrTerm = document.getElementById('lrTerm');
+  var lrZodiac = document.getElementById('lrZodiac'), lrFest = document.getElementById('lrFest');
+  var tradChips = document.querySelectorAll('.lunarette-chips [data-trad]');
+  var presetChips = document.querySelectorAll('.lunarette-chips [data-preset]');
+
+  var currentTrad = 'vn';
+  var currentPreset = 'midautumn';
+
+  var presets = {
+    'midautumn': {
+      moon: '🌕',
+      solar: '2026-09-25',
+      term: "추분",
+      fest: "한가위 추석 · 오늘 밤",
+      icon: '🥮',
+      titles: {
+        'vn': 'Ngày 15 tháng 8 năm Bính Ngọ',
+        'cn': '丙午年八月十五',
+        'kr': '병오년 8월 15일 (추석)',
+        'jp': '8月15日 六曜: 大安'
+      },
+      stem: 'Bính Thìn',
+      zodiac: "병오년 (말띠)"
+    },
+    'tet': {
+      moon: '🧧',
+      solar: '2027-02-06',
+      term: "입춘",
+      fest: "설날 (음력 1월 1일)",
+      icon: '🎊',
+      titles: {
+        'vn': 'Mùng 1 tháng Giêng năm Đinh Mùi',
+        'cn': '丁未年正月初一',
+        'kr': '정미년 1월 1일 (설날)',
+        'jp': '1月1日 (旧正月) 大安'
+      },
+      stem: 'Canh Dần',
+      zodiac: "정미년 (양띠)"
+    },
+    'qingming': {
+      moon: '🌾',
+      solar: '2026-04-05',
+      term: "청명",
+      fest: "청명절",
+      icon: '🌿',
+      titles: {
+        'vn': 'Ngày 18 tháng 2 năm Bính Ngọ',
+        'cn': '丙午年二月十八',
+        'kr': '병오년 2월 18일 (청명)',
+        'jp': '2月18日 六曜: 友引'
+      },
+      stem: 'Nhâm Tuất',
+      zodiac: "병오년 (말띠)"
+    },
+    'newmoon': {
+      moon: '🌑',
+      solar: '2026-09-11',
+      term: "백로",
+      fest: "초하루 / 삭",
+      icon: '✨',
+      titles: {
+        'vn': 'Mùng 1 tháng 8 năm Bính Ngọ',
+        'cn': '丙午年八月初一',
+        'kr': '병오년 8월 1일 (초하루)',
+        'jp': '8月1日 六曜: 先勝'
+      },
+      stem: 'Nhâm Tý',
+      zodiac: "병오년 (말띠)"
+    }
+  };
+
+  function render() {
+    var p = presets[currentPreset];
+    if (!p) return;
+    lrMoon.textContent = p.moon;
+    lrTitle.textContent = p.titles[currentTrad] || p.titles['vn'];
+    lrSolar.textContent = p.solar + ' · ' + p.term;
+    lrPill.textContent = p.icon + ' ' + p.fest;
+    lrStem.textContent = p.stem;
+    lrTerm.textContent = p.term;
+    lrZodiac.textContent = p.zodiac;
+    lrFest.textContent = p.fest;
+  }
+
+  tradChips.forEach(function(c) {
+    c.addEventListener('click', function() {
+      tradChips.forEach(function(x) { x.classList.remove('active'); });
+      c.classList.add('active');
+      currentTrad = c.getAttribute('data-trad');
+      render();
+    });
+  });
+
+  presetChips.forEach(function(c) {
+    c.addEventListener('click', function() {
+      presetChips.forEach(function(x) { x.classList.remove('active'); });
+      c.classList.add('active');
+      currentPreset = c.getAttribute('data-preset');
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
 
 <!-- family:shot --><figure class="shot"><img src="../img/hero.jpg" alt="" width="1600" height="860"></figure><!-- /family:shot -->
 <section class="card">
@@ -125,6 +279,49 @@
   <p class="note">macOS 14 Sonoma 이상, iOS 17 또는 iPadOS 17 이상, 또는 Android 8.0 이상이 필요합니다. 1901년부터 2099년까지 지원합니다.</p>
 </section>
 
+
+<section class="card comparison-card" id="comparison">
+  <h2>광고로 뒤덮인 달력 앱 vs Lunarette</h2>
+  <p class="section-lead">미신과 광고 없이, 정확한 천문 음력과 24절기의 지혜를 온전히 담았습니다.</p>
+  <div class="table-scroll">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>비교 항목</th>
+          <th>일반 음력 / 만세력 앱</th>
+          <th class="highlight-col">Lunarette</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>광고 및 미신</strong></td>
+          <td>전면 팝업 광고, 유료 사주팔자 및 부적 결제 유도</td>
+          <td class="highlight-col"><strong>100% 무광고, 군더더기 없는 정갈하고 품격 있는 디자인</strong></td>
+        </tr>
+        <tr>
+          <td><strong>4개국 전통 경도</strong></td>
+          <td>단일 기준시 적용으로 윤달 및 날짜 오류 발생 (1985년 설날, 2027년 설날)</td>
+          <td class="highlight-col"><strong>한국, 베트남, 중국, 일본 각각의 표준 자오선에 맞춘 정확한 천문 계산</strong></td>
+        </tr>
+        <tr>
+          <td><strong>24절기와 명절</strong></td>
+          <td>태양 황경 오차, 전통 명절 D-day 카운트다운 부재</td>
+          <td class="highlight-col"><strong>정확한 24절기 환산, 고유 명절 및 실시간 D-day 안내</strong></td>
+        </tr>
+        <tr>
+          <td><strong>음력 일정 알림</strong></td>
+          <td>양력 알림만 지원하여 제사나 음력 생일을 매년 수동 환산해야 함</td>
+          <td class="highlight-col"><strong>제사, 음력 생일, 매월 초하루·보름 자동 반복 알림</strong></td>
+        </tr>
+        <tr>
+          <td><strong>네이티브 완성도</strong></td>
+          <td>무거운 웹뷰 방식으로 배터리 소모 및 개인정보 추적</td>
+          <td class="highlight-col"><strong>Mac 메뉴바 상주, 잠금화면 및 바탕화면 위젯, 100% 오프라인 작동</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 <section class="card">
   <h2>한 문단으로 보는 개인정보 보호</h2>
   <p>Lunarette에는 네트워크 접근도, 계정도, 추적도 없습니다. 달력은 달과 해의 위치를 바탕으로 기기에서 계산되며, 알림도 기기에만 남습니다. 전체 <a href="privacy.html">개인정보 처리방침</a>에서 같은 내용을 더 자세히 볼 수 있습니다.</p>
